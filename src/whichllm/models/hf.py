@@ -21,6 +21,7 @@ _MODEL_EXPANDS = [
     "safetensors",
     "gguf",
     "cardData",
+    "tags",
     "siblings",
     "evalResults",
 ]
@@ -30,6 +31,7 @@ _MODEL_DETAIL_EXPANDS = [
     "safetensors",
     "gguf",
     "cardData",
+    "tags",
     "siblings",
     "evalResults",
     "downloads",

@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+## [0.5.16] - 2026-08-14
+
+### Changed
+
+- Split benchmark caching, fetching, indexing, lineage, lookup, and shared types
+  into focused modules while preserving the existing
+  `whichllm.models.benchmark` import surface. (#41, #143)
+- Locked the uv and Ruff versions used by contributors and required CI checks,
+  so unchanged commits are validated with the same development tools. (#150,
+  #151)
+
+### Fixed
+
+- Generated `whichllm run` and `whichllm snippet` scripts now encode model IDs,
+  GGUF filenames, and quantization types as Python literals, preventing crafted
+  Hugging Face metadata from changing the generated code structure. (#147)
+- Synthetic GGUF recommendations now resolve only to direct quantizations of
+  the selected checkpoint, rejecting fine-tunes, merges, conflicting lineage,
+  and artifacts without explicit provenance. (#155, #156)
+
 ## [0.5.15] - 2026-07-03
 
 ### Changed

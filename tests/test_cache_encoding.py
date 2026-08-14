@@ -35,7 +35,11 @@ class _WritableCacheFile:
 
 def test_model_cache_reads_and_writes_utf8(monkeypatch, tmp_path):
     reader = _ReadableCacheFile(
-        {"cached_at": time.time(), "models": [{"id": "test/Omega-Ω"}]}
+        {
+            "schema_version": cache_mod.CACHE_SCHEMA_VERSION,
+            "cached_at": time.time(),
+            "models": [{"id": "test/Omega-Ω"}],
+        }
     )
     monkeypatch.setattr(cache_mod, "CACHE_FILE", reader)
     assert cache_mod.load_cache() == [{"id": "test/Omega-Ω"}]
@@ -47,6 +51,15 @@ def test_model_cache_reads_and_writes_utf8(monkeypatch, tmp_path):
     cache_mod.save_cache([{"id": "test/Omega-Ω"}])
     assert writer.encoding == "utf-8"
     assert "Ω" in writer.text
+
+
+def test_model_cache_rejects_missing_provenance_schema(monkeypatch):
+    reader = _ReadableCacheFile(
+        {"cached_at": time.time(), "models": [{"id": "test/old-cache"}]}
+    )
+    monkeypatch.setattr(cache_mod, "CACHE_FILE", reader)
+
+    assert cache_mod.load_cache() is None
 
 
 def test_benchmark_cache_reads_and_writes_utf8(monkeypatch, tmp_path):
